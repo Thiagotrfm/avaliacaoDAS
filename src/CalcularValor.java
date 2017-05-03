@@ -14,8 +14,15 @@ public class CalcularValor {
 	
 	public CalcularValor(Acesso acesso) {
 		this.acesso = acesso;
+
+		calculaTempoDePermanencia(acesso);
 		
-		// atribuindo a variaveis temporarias apenas para diminuir a duplicacao de get desses atributos da classe Acesso
+		this.setValorPorHora(this.getQuantidadeHoras() * VALOR_HORA);
+		this.setValorPorFracaoExcedente((float) (Math.ceil(this.getQuantidadeMinutos() / 15.0) * VALOR_FRACAO));
+	}
+
+	public void calculaTempoDePermanencia(Acesso acesso) {
+		// atribuindo a variaveis temporarias apenas para diminuir a duplicacao de chamadas de funcao get
 		int horaEntrada = acesso.getHoraEntrada();
 		int horaSaida = acesso.getHoraSaida();
 		int minutosEntrada = acesso.getMinutosEntrada();
@@ -38,19 +45,15 @@ public class CalcularValor {
 			this.setQuantidadeHoras(0);
 			this.setQuantidadeMinutos(0);
 		}
-		
-		this.setValorPorHora(this.getQuantidadeHoras() * VALOR_HORA);
-		this.setValorPorFracaoExcedente((float) (Math.ceil(this.getQuantidadeMinutos() / 15.0) * VALOR_FRACAO));
 	}
 	
-	public float Compute() {
+	public float compute() {
 		// logica para calcular o valor total
-		float valorTotal = this.getValorPorHora() + this.getValorPorFracaoExcedente();		
 		
 		if (this.getQuantidadeHoras() >=9)
 			return VALOR_DIARIA;
 		else 
-			return valorTotal;
+			return this.getValorPorHora() + this.getValorPorFracaoExcedente();
 	}
 	
 	// getters e setters

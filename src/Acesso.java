@@ -22,7 +22,7 @@ public class Acesso {
 	}
 	
 	public float calcularValor() { 
-		return new CalcularValor(this).Compute();
+		return new CalcularValor(this).compute();
 	}
 	
 	public int getHoraEntrada() {
